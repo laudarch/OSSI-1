@@ -67,4 +67,5 @@ void usart1_rx (void)
 //  _EINT(); // Bad habit!
   step++;
   rx1Cnt++;
+  __bic_SR_register_on_exit(LPM3_bits);
 }

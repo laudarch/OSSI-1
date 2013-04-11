@@ -16,10 +16,27 @@
  * I2C Addresses
  */
 
+// I2C Mux Channel: MUX_COMMS_CHANNEL
 #define COMMS_ADDR				(0x60)
+
+// I2C Mux Channel: MUX_BEACON_CHANNEL
 #define BEACON_ADDR				(0x61)
+// MUX_LED_CHANNEL
 #define LED_ADDR				(0x62)
 
+// I2C Mux Channel: MUX_PANELTEMP_CHANNEL
+#define TEMP_MINUS_Z_ADDR		(0x4E)
+#define TEMP_MINUS_Y_ADDR		(0x4C)
+#define TEMP_MINUS_X_ADDR		(0x49)
+#define TEMP_PLUS_Z_ADDR		(0x4D)
+#define TEMP_PLUS_Y_ADDR		(0x4A)
+
+
+// I2C Mux Channel: MUX_OBC_INTERNAL_CHANNEL
+#define OBC_TEMP_ADDR			(0x48)
+#define OBC_EEPROM_ADDR			(0x50)
+#define OBC_FRAM_ADDR			(0x51)
+#define OBC_RTC_ADDR			(0x68)
 
 /*
  * OBC Data Model
@@ -38,7 +55,6 @@
 #define LED_STATUS_DATA_START_ADDR		(OSSI_DATA_SIZE - LED_STATUS_DATA_SIZE)
 
 
-
 #define STATUS_DATA_ADDR	(0)
 #define STATUS_DATA_SIZE	(8)
 
@@ -54,7 +70,7 @@
 #define LEDTIME_DATA_ADDR	(38)
 #define LEDTIME_DATA_SIZE	(4)
 
-enum parmOperationMode
+typedef enum
 {
 	BOOT_MODE = 0,
 	DEPLOY_MODE = 1,
@@ -63,18 +79,25 @@ enum parmOperationMode
 	SAFE_MODE = 4,
 	RECOVERY_MODE= 5,
 	TEST_MODE = 6
+} parmOperationMode;
+
+enum parmOnStatus
+{
+	COMMS_ON = 0x01,
+	BEACON_ON = 0x02,
+	LED_ON = 0x04
 };
 
 enum parmEpsStatus
 {
-	SOLAR_MODE = 0,
-	BATTERY_MODE = 1,
-	SUPERCAP_MODE = 2,
+	BATTERY_MODE = 0x01, // 0x00 -> SOLAR_MODE
+	SUPERCAP_EN = 0x02,
+	SUPERCAP_PATH_ON = 0x04,
 	BATTERY_CHARGED = 0x08,
 	BATTERY_FAULT = 0x10,
 	SUPERCAP_CHARGER_EN = 0x20,
-	SUPERCAP_CHARGED = 0x40,
-	SUPERCAP_FAULT = 0x80
+	SUPERCAP_CHARGED = 0x40
+	//SUPERCAP_FAULT = 0x80
 };
 
 //enum parmErrStatus
@@ -259,6 +282,7 @@ typedef union {
 enum parmBeaconCmd1
 {
 	BEACON_CMD1_CLEAR = 0,
+	BEACON_STANDALONE = 64,
 	MORSE_SEND_START = 128,
 	MORSE_SEND_STOP =129
 };

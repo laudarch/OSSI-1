@@ -46,7 +46,7 @@
 //                                            st((P##port##DIR &= ~(pin)););\
 //                                        }
 
-void delay_ms(uint16_t delay);
+
 void min_max(uint8_t min, uint8_t max, uint8_t value);
 
 #endif /* GLOBAL_H_ */
